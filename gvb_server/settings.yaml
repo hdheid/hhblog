@@ -1,0 +1,17 @@
+mysql:
+  host: 127.0.0.1       # mysql地址
+  port: 3306            # mysql端口号
+  db: gvb_db            # 数据库名
+  username: root        # 用户名
+  password: wuwang222   # 密码
+  log_level: dev        # 日志等级,开发环境
+logger:
+  level: info           # 日志等级
+  prefix: '[gvb]'       # 日志前缀
+  director: log         # 日志文件夹
+  show_line: true       # 显示行
+  log_in_console: true  # 显示在控制台
+system:
+  host: "0.0.0.0"       # 系统运行地址
+  port: 8000            # 系统运行端口号
+  env: dev              # 环境为开发环境
