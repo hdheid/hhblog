@@ -9,4 +9,8 @@ import (
 func main() {
 	core.InitConf() //读取配置文件
 	fmt.Println(global.Config)
+
+	//初始化日志
+	core.InitLogger()
+	global.Log.Warnln("nihao")
 }
