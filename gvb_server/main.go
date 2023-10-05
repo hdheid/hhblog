@@ -1,16 +1,17 @@
 package main
 
 import (
-	"fmt"
 	"gvb_server/core"
-	"gvb_server/global"
 )
 
 func main() {
 	core.InitConf() //读取配置文件
-	fmt.Println(global.Config)
+	//fmt.Println(global.Config)
 
 	//初始化日志
 	core.InitLogger()
-	global.Log.Warnln("nihao")
+
+	//初始化数据库
+	core.InitGorm()
+
 }

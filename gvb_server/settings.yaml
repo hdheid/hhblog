@@ -1,9 +1,9 @@
 mysql:
   host: 127.0.0.1       # mysql地址
-  port: 3306            # mysql端口号
+  port: 2222            # mysql端口号
   db: gvb_db            # 数据库名
   username: root        # 用户名
-  password: wuwang222   # 密码
+  password: Wuwang222   # 密码
   log_level: dev        # 日志等级,开发环境
 logger:
   level: info           # 日志等级

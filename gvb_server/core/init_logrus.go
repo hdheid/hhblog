@@ -75,6 +75,7 @@ func InitLogger() {
 	mLog.SetLevel(level) //设置日志级别，从配置文件中读取
 
 	global.Log = mLog
+	global.Log.Info("日志初始化成功！")
 }
 
 func InitDefaultLogger() {
@@ -88,5 +89,5 @@ func InitDefaultLogger() {
 		level = logrus.InfoLevel
 	}
 	logrus.SetLevel(level) //设置日志级别，从配置文件中读取
-
+	logrus.Info("日志初始化成功！")
 }
