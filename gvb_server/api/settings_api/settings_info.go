@@ -1,9 +1,10 @@
 package settings_api
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+	"gvb_server/models/common"
+)
 
 func (SettingsApi) SettingsInfoView(c *gin.Context) {
-	c.JSON(200, gin.H{
-		"msg": "hello world",
-	})
+	common.FailWitCode(common.SettingsErr, c)
 }
