@@ -12,12 +12,13 @@ go get github.com/gin-gonic/gin
 
 func InitRouter() *gin.Engine {
 	gin.SetMode(global.Config.System.Env) //设置gin环境
-
 	r := gin.Default()
-	r.GET("/", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "hello world",
-		})
-	})
+
+	//可以像这样路由分组
+	apiRouterGroup := r.Group("api")
+	{
+		SettingsRouter(apiRouterGroup) //获取系统信息接口
+	}
+
 	return r
 }
