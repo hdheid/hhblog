@@ -11,6 +11,11 @@ import (
 
 /*
 使用gorm来连接数据
+
+需要获取gorm的依赖
+go get gorm.io/driver/mysql
+go get gorm.io/gorm
+go get gorm.io/gorm/logger
 */
 
 func InitGorm() {
