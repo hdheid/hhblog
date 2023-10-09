@@ -18,6 +18,7 @@ func InitRouter() *gin.Engine {
 	apiRouterGroup := r.Group("api")
 	{
 		SettingsRouter(apiRouterGroup) //获取系统信息接口
+		ImagesRouter(apiRouterGroup)   //上传图片接口
 	}
 
 	return r

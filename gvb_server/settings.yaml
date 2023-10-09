@@ -58,3 +58,6 @@ qi_niu:
   zone: z2
   prefix: fengfeng
   size: 6
+upload:
+  size: 1
+  path: static/file
