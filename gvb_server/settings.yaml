@@ -1,17 +1,60 @@
 mysql:
-  host: 127.0.0.1       # mysql地址
-  port: 3306            # mysql端口号
-  db: gvb_db            # 数据库名
-  username: root        # 用户名
-  password: Wuwang222   # 密码
-  log_level: dev        # 日志等级,开发环境
+  host: 127.0.0.1
+  port: "3306"
+  db: gvb_db
+  config: ""
+  username: root
+  password: Wuwang222
+  log_level: dev
 logger:
-  level: info           # 日志等级
-  prefix: 'gvb'         # 日志前缀
-  director: log         # 日志文件夹
-  show_line: true       # 显示行号
-  log_in_console: true  # 显示在控制台
+  level: debug
+  prefix: gvb
+  director: log
+  show_line: true
+  log_in_console: "true"
 system:
-  host: 0.0.0.0         # 系统运行地址
-  port: 8080            # 系统运行端口号
-  env: release          # 环境为开发环境
+  host: 0.0.0.0
+  port: "8080"
+  env: release
+site_info:
+  created_at: "2023-10-07"
+  bei_an: 湘ICP备2021010654号-3
+  title: 枫枫知道
+  qq_image: http://www.fengfengzhidao.com/static/my/img/footer/qq.png
+  version: 6.0.2
+  email: 2663456523@qq.com
+  wechat_image: http://www.fengfengzhidao.com/static/my/img/footer/wechat.png
+  name: 枫枫知道
+  job: 后端开发
+  addr: 湖南长沙
+  slogan: 枫枫知道
+  slogan_en: FENGFENGZHIDAO
+  web: http://www.fengfengzhidao.com/
+  bilibili_url: https://space.bilibili.com/359151217
+  gitee_url: https://gitee.com/fengfengzhidao
+  github_url: https://github.com/fengfengzhidao/
+qq:
+  app_id: "101974593"
+  key: xxx
+  redirect: http://blog.fengfengzhidao.com/login?flag=qq
+jwy:
+  secret: xxxx
+  expires: 20
+  issuer: "1234"
+email:
+  host: smtp.qq.com
+  port: 465
+  user: 2974771769@qq.com
+  password: "123"
+  default_from_email: 枫枫知道
+  use_ssl: true
+  user_tls: false
+qi_niu:
+  enable: true
+  access_key: ZnP90V73cxgvRQSqfae19FnK6N3GMMSxB2-l_nBn
+  secret_key: bD7SZh_at4kPNsL28scBGgEWCHbJNOnsR8zOVUAH
+  bucket: sportphotos
+  cdn: http://rtworch7c.hn-bkt.clouddn.com/
+  zone: z2
+  prefix: fengfeng
+  size: 6

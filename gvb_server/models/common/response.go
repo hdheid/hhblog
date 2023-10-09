@@ -32,6 +32,11 @@ func OK(data any, msg string, c *gin.Context) {
 	result(SUCCESS, data, msg, c)
 }
 
+// OKWithNoting 什么都不需要传
+func OKWithNoting(c *gin.Context) {
+	result(SUCCESS, map[string]interface{}{}, "成功", c)
+}
+
 // OKWithMessage 只需要传msg
 func OKWithMessage(msg string, c *gin.Context) {
 	result(SUCCESS, map[string]interface{}{}, msg, c)
@@ -52,7 +57,7 @@ func FailWithMessage(msg string, c *gin.Context) {
 	result(ERR, map[string]interface{}{}, msg, c)
 }
 
-func FailWitCode(code ErrorCode, c *gin.Context) {
+func FailWithCode(code ErrorCode, c *gin.Context) {
 	if msg, ok := ErrMap[code]; ok { //如果错误码能够查询到就响应回去
 		result(int(code), map[string]interface{}{}, msg, c)
 		return
