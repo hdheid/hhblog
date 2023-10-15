@@ -29,12 +29,13 @@ func InitGorm() {
 
 	var mysqllogger logger.Interface
 	//如果当前为开发环境，显示所有 SQL 语句
-	if global.Config.System.Env == "dev" {
+	if global.Config.System.Env == "debug" {
 		mysqllogger = logger.Default.LogMode(logger.Info)
 	} else {
 		//只打印错误的sql语句
 		mysqllogger = logger.Default.LogMode(logger.Error)
 	}
+	global.MysqlLogger = logger.Default.LogMode(logger.Info) //设置全局变量
 
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
 		Logger: mysqllogger,

@@ -18,6 +18,11 @@ type Response struct {
 	Msg  string `json:"msg"`
 }
 
+type ListResponse[T any] struct {
+	Count int64 `json:"count"`
+	List  T     `json:"list"`
+}
+
 // 将响应封装并返回
 func result(code int, data any, msg string, c *gin.Context) {
 	c.JSON(http.StatusOK, Response{
@@ -45,6 +50,13 @@ func OKWithMessage(msg string, c *gin.Context) {
 // OKWithData 只需要传data
 func OKWithData(data any, c *gin.Context) {
 	result(SUCCESS, data, "成功", c)
+}
+
+func OKWithList(list any, count int64, c *gin.Context) {
+	result(SUCCESS, ListResponse[any]{
+		List:  list,
+		Count: count,
+	}, "成功", c)
 }
 
 // Fail 失败

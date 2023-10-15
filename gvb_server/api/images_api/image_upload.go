@@ -4,10 +4,34 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"gvb_server/global"
+	"gvb_server/models"
 	"gvb_server/models/common"
+	"gvb_server/utils"
+	"io"
 	"io/fs"
 	"os"
 	"path"
+	"strings"
+)
+
+/*
+图片上传的黑名单、白名单
+黑名单：如果文件后缀名与黑名单中的后缀名重合，就拒绝上传
+白名单：只能上传在白名单中出现的后缀
+*/
+
+var (
+	// ImageWhitelist 图片白名单列表
+	ImageWhitelist = []string{
+		"jpg",
+		"png",
+		"jpeg",
+		"gif",
+		"tiff",
+		"ico",
+		"svg",
+		"webp",
+	}
 )
 
 type FileUploadResponse struct {
@@ -49,7 +73,16 @@ func (ImagesApi) ImageUploadView(c *gin.Context) {
 	//循环遍历文件
 	var resList []FileUploadResponse
 	for _, file := range fileList {
-		filePath := path.Join(global.Config.Upload.Path, file.Filename) //关于图片上传的黑名单和白名单还没有弄
+		if !IsWhite(file.Filename) { //关于图片上传的白名单
+			resList = append(resList, FileUploadResponse{
+				FileName:  file.Filename,
+				Msg:       "非法文件，请重新上传！",
+				IsSuccess: false,
+			})
+			continue
+		}
+
+		filePath := path.Join(global.Config.Upload.Path, file.Filename)
 		//判断大小，过大的文件不上传
 		size := float64(file.Size) / float64(1024*1024)
 		//将过大没有上传的文件信息储存在结构体切片中
@@ -62,8 +95,32 @@ func (ImagesApi) ImageUploadView(c *gin.Context) {
 			continue
 		}
 
+		fileObj, err := file.Open() //打开文件
+		if err != nil {
+			global.Log.Error("获取文件对象失败：", err)
+		}
+		byteData, err := io.ReadAll(fileObj) //读取文件信息
+		if err != nil {
+			global.Log.Error("读取文件信息失败：", err)
+		}
+		//哈希值的作用是判断两张图片内容是否是一样的，假如某一张图片只修改了名字，那么这两张图片的哈希值是一样的，就能说明这两张图片其实是一张图片
+		//将哈希值存入数据库，就可以很方便地判断这张图片是否已经存在。
+		imageHash := utils.Md5(byteData) //转化为哈希值
+		//判断数据库中是否存在该图片
+		var banner models.BannerModel
+		err = global.DB.Take(&banner, "hash = ?", imageHash).Error
+		if err == nil {
+			//表示找到了该图片
+			resList = append(resList, FileUploadResponse{
+				FileName:  banner.Path,
+				Msg:       "图片已经存在！",
+				IsSuccess: false,
+			})
+			continue
+		}
+
 		//正常上传
-		err := c.SaveUploadedFile(file, filePath)
+		err = c.SaveUploadedFile(file, filePath)
 		if err != nil {
 			global.Log.Error("图片上传失败：", err)
 			resList = append(resList, FileUploadResponse{
@@ -80,7 +137,29 @@ func (ImagesApi) ImageUploadView(c *gin.Context) {
 			Msg:       "上传成功！",
 			IsSuccess: true,
 		})
+
+		//将图片信息入库
+		global.DB.Create(&models.BannerModel{
+			Path: filePath,
+			Hash: imageHash,
+			Name: file.Filename,
+		})
 	}
 
 	common.OKWithData(resList, c)
+}
+
+func IsWhite(fileNmae string) bool {
+	nameList := strings.Split(fileNmae, ".")
+	suffix := strings.ToLower(nameList[len(nameList)-1]) //拿到文件的后缀,将其统一变为小写的形式
+
+	global.Log.Debug(suffix)
+
+	for _, str := range ImageWhitelist { //如果该后缀在白名单中，返回真
+		if suffix == str {
+			return true
+		}
+	}
+
+	return false
 }
