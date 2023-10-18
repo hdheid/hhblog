@@ -50,13 +50,13 @@ email:
   use_ssl: true
   user_tls: false
 qi_niu:
-  enable: true
-  access_key: ZnP90V73cxgvRQSqfae19FnK6N3GMMSxB2-l_nBn
-  secret_key: bD7SZh_at4kPNsL28scBGgEWCHbJNOnsR8zOVUAH
-  bucket: sportphotos
-  cdn: http://rtworch7c.hn-bkt.clouddn.com/
+  enable: false
+  access_key: JrwdzFnL0mSg9Z-dfx2MPCNDrl7lB_6CSZsrsQDi
+  secret_key: Kf-gm4NdB96mY4e1PihTmTtOM4KQthG8AOBk9vY9
+  bucket: hdheid
+  cdn: s2klfv91x.hn-bkt.clouddn.com/
   zone: z2
-  prefix: fengfeng
+  prefix: gvb
   size: 6
 upload:
   size: 1
