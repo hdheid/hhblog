@@ -98,7 +98,7 @@ func IsWhite(fileNmae string) bool {
 	nameList := strings.Split(fileNmae, ".")
 	suffix := strings.ToLower(nameList[len(nameList)-1]) //拿到文件的后缀,将其统一变为小写的形式
 
-	global.Log.Debug(suffix)
+	//global.Log.Debug(suffix)
 
 	for _, str := range ImageWhitelist { //如果该后缀在白名单中，返回真
 		if suffix == str {

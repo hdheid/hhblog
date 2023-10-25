@@ -34,6 +34,53 @@ definitions:
       msg:
         type: string
     type: object
+  images_api.ImageResponse:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      path:
+        type: string
+    type: object
+  menu_api.ImageSort:
+    properties:
+      image_id:
+        type: integer
+      sort:
+        type: integer
+    type: object
+  menu_api.MenuRequest:
+    properties:
+      abstract:
+        description: 简介
+        items:
+          type: string
+        type: array
+      abstract_time:
+        description: 切换的时间，单位秒
+        type: integer
+      banner_time:
+        description: 切换的时间，单位秒
+        type: integer
+      image_sort_list:
+        description: 具体图片的顺序
+        items:
+          $ref: '#/definitions/menu_api.ImageSort'
+        type: array
+      path:
+        type: string
+      slogan:
+        type: string
+      sort:
+        description: 菜单的序号
+        type: integer
+      title:
+        type: string
+    required:
+    - path
+    - title
+    type: object
   models.AdvertModel:
     properties:
       created_at:
@@ -142,7 +189,7 @@ paths:
       summary: 创建广告
       tags:
       - 广告管理
-  /api/adverts/{id}:
+  /api/adverts/:id:
     put:
       description: 查询ID，来修改该广告的内容
       parameters:
@@ -162,4 +209,44 @@ paths:
       summary: 修改广告
       tags:
       - 广告管理
+  /api/images_names:
+    get:
+      description: 查询所有的图片的ID、地址、名字
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/common.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/images_api.ImageResponse'
+                  type: array
+              type: object
+      summary: 查询部分图片信息
+      tags:
+      - 图片管理
+  /api/menus:
+    post:
+      description: 创建一个或多个菜单
+      parameters:
+      - description: 表示多个参数
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/menu_api.MenuRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/common.Response'
+      summary: 创建菜单
+      tags:
+      - 菜单管理
 swagger: "2.0"

@@ -125,7 +125,7 @@
                 }
             }
         },
-        "/api/adverts/{id}": {
+        "/api/adverts/:id": {
             "put": {
                 "description": "查询ID，来修改该广告的内容",
                 "produces": [
@@ -143,6 +143,72 @@
                         "required": true,
                         "schema": {
                             "$ref": "#/definitions/advert_api.AdvertRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/common.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/images_names": {
+            "get": {
+                "description": "查询所有的图片的ID、地址、名字",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "图片管理"
+                ],
+                "summary": "查询部分图片信息",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/common.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/images_api.ImageResponse"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/api/menus": {
+            "post": {
+                "description": "创建一个或多个菜单",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "菜单管理"
+                ],
+                "summary": "创建菜单",
+                "parameters": [
+                    {
+                        "description": "表示多个参数",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/menu_api.MenuRequest"
                         }
                     }
                 ],
@@ -203,6 +269,75 @@
                 },
                 "data": {},
                 "msg": {
+                    "type": "string"
+                }
+            }
+        },
+        "images_api.ImageResponse": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                }
+            }
+        },
+        "menu_api.ImageSort": {
+            "type": "object",
+            "properties": {
+                "image_id": {
+                    "type": "integer"
+                },
+                "sort": {
+                    "type": "integer"
+                }
+            }
+        },
+        "menu_api.MenuRequest": {
+            "type": "object",
+            "required": [
+                "path",
+                "title"
+            ],
+            "properties": {
+                "abstract": {
+                    "description": "简介",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "abstract_time": {
+                    "description": "切换的时间，单位秒",
+                    "type": "integer"
+                },
+                "banner_time": {
+                    "description": "切换的时间，单位秒",
+                    "type": "integer"
+                },
+                "image_sort_list": {
+                    "description": "具体图片的顺序",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/menu_api.ImageSort"
+                    }
+                },
+                "path": {
+                    "type": "string"
+                },
+                "slogan": {
+                    "type": "string"
+                },
+                "sort": {
+                    "description": "菜单的序号",
+                    "type": "integer"
+                },
+                "title": {
                     "type": "string"
                 }
             }
