@@ -26,6 +26,7 @@ func InitRouter() *gin.Engine {
 		AdvertRouter(apiRouterGroup)   //广告信息接口
 		MenuRouter(apiRouterGroup)     //菜单信息接口
 		UserRouter(apiRouterGroup)     //用户管理接口
+		TagRouter(apiRouterGroup)      //标签管理接口
 	}
 
 	return r
