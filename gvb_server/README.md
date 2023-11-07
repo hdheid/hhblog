@@ -69,3 +69,40 @@ air 是 Go 语言的热加载工具，它可以监听文件或目录的变化，
 在代码修改后，当编译器失去焦点后，便会自动重启。
 
 如果修改某个文件后不需要自动重启项目，我们输入`air init`便会在根目录出现一个 air 的配置文件，只需要在`exculude_dir`中将文件名加入进去即可。
+
+
+# 用户登陆的 JWT
+
+jwt 全称为 `json web token` ，jwt更像是一种标准。
+
+在 go 中有相应的第三方依赖，使用命令 `go get github.com/dgrijalva/jwt-go/v4` 即可。
+
+
+# redis 的连接和使用
+
+go 语言使用 redis 需要下载一个第三方依赖：
+`go get github.com/go-redis/redis`
+
+# 发送 email
+
+go 语言使用 redis 需要下载一个第三方依赖：
+`go get gopkg.in/gomail.v2`
+
+发送email验证的流程为：
+1. 首先用户会输入邮箱
+2. 后台会给用户发送验证码
+3. 用户输入验证码，密码
+4. 验证成功，完成绑定
+
+## session
+
+session 的原理：
+![img.png](session_img/img.png)
+
+在 go 中使用 session 同样需要下载一个第三方依赖：
+`go get github.com/gin-contrib/sessions`
+
+# 通过IP判断地址
+在Go语言中，可以使用第三方库来根据用户的IP地址判断其所在的地理位置。一个常用的库是geoip2-golang，它提供了IP地址解析和地理位置查询的功能。
+在 go 中使用 geoip2-golang 同样需要下载一个第三方依赖：
+`go get github.com/oschwald/geoip2-golang`

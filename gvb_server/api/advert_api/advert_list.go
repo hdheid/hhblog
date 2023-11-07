@@ -21,7 +21,7 @@ func (AdvertApi) AdvertListView(c *gin.Context) {
 	var conf models.PageInfo
 	err := c.ShouldBindQuery(&conf)
 	if err != nil {
-		global.Log.Debug("参数解析失败：%s", err)
+		global.Log.Debugf("参数解析失败：%s", err)
 		common.FailWithCode(common.ArgumentError, c)
 		return
 	}

@@ -38,15 +38,15 @@ qq:
   key: xxx
   redirect: http://blog.fengfengzhidao.com/login?flag=qq
 jwy:
-  secret: xxxx
-  expires: 20
+  secret: this
+  expires: 24
   issuer: "1234"
 email:
   host: smtp.qq.com
   port: 465
-  user: 2974771769@qq.com
-  password: "123"
-  default_from_email: 枫枫知道
+  user: 422537262@qq.com
+  password: "ldwirdrxlokcbhjj"
+  default_from_email: hdheid
   use_ssl: true
   user_tls: false
 qi_niu:
@@ -61,3 +61,10 @@ qi_niu:
 upload:
   size: 1
   path: static/file
+redis:
+  ip: "127.0.0.1"
+  port: 6379
+  password: "wuwang222"
+  pool_size: 100
+tx_map:
+  key: "LI3BZ-APYK3-Z5K3Y-OYN4A-V3DQO-ZBFYQ"

@@ -2,6 +2,7 @@ package flag
 
 import (
 	sys_flag "flag"
+	"github.com/fatih/structs"
 )
 
 type Option struct {
@@ -44,12 +45,27 @@ func Parse() Option {
 	}
 }
 
+/*
+	val.(type) 是一个类型断言的语法模式，其中 val 是一个接口类型的值。
+	它被用于判断 val 的底层类型，并且只能在 switch 语句中使用。
+*/
 // IsWebStop 是否停止web项目
+//判断逻辑为：只要有一个命令不为空或假，就表示使用了命令，即停止web项目
 func IsWebStop(option Option) (f bool) {
-	if option.DB {
-		return true
+	mp := structs.Map(&option)
+	for _, val := range mp {
+		switch value := val.(type) {
+		case string:
+			if value != "" {
+				f = true
+			}
+		case bool:
+			if value {
+				f = true
+			}
+		}
 	}
-	return true
+	return
 }
 
 // SwitchOption 根据命令执行不同的函数

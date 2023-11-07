@@ -25,6 +25,7 @@ func InitRouter() *gin.Engine {
 		ImagesRouter(apiRouterGroup)   //上传图片接口
 		AdvertRouter(apiRouterGroup)   //广告信息接口
 		MenuRouter(apiRouterGroup)     //菜单信息接口
+		UserRouter(apiRouterGroup)     //用户管理接口
 	}
 
 	return r

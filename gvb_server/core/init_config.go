@@ -36,7 +36,7 @@ func InitConf() {
 	}
 
 	log.Println("yaml文件初始化成功！")
-	fmt.Println(conf) //将映射好的实例打印到控制台
+	//fmt.Println(conf) //将映射好的实例打印到控制台
 
 	global.Config = conf //将conf设置为全局的变量
 }

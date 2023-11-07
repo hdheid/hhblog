@@ -21,7 +21,7 @@ func (AdvertApi) AdvertUpdateView(c *gin.Context) {
 	var cr AdvertRequest
 	err := c.ShouldBindJSON(&cr)
 	if err != nil {
-		global.Log.Debug("参数解析失败：%s", err)
+		global.Log.Debugf("参数解析失败：%s", err)
 		common.FailWithError(err, &cr, c)
 		return
 	}
