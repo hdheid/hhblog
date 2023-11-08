@@ -1,13 +1,10 @@
 <template>
-
+login
 </template>
 
-<script>
-export default {
-    name: "login.vue"
-}
+<script setup>
 </script>
 
-<style scoped>
+<style>
 
 </style>

@@ -48,3 +48,46 @@ npm run build
                                                                                                                                           
  通过这些样式，你可以创建一个干净的起点，然后在网页中逐个添加自定义样式，以确保页面元素按照你的需求进行布局和显示。这是一种常见的CSS重置技巧，用于规范化不同浏览器之间的默认样式差异。
 ```
+
+## html格式
+```html
+<!--admin的页面格式-->
+<div class="gvb_admin">
+    <aside>
+
+    </aside>
+    <div class="main">
+        <header></header>
+        <div class="tabs"></div>
+        <main></main>
+    </div>
+</div>
+
+<aside>元素通常用于包含侧边栏内容。
+<header>元素通常用于包含页面的标题或页眉部分。
+<div class="tabs">元素可能用于显示标签式导航选项卡。
+<main>元素通常用于包含主要的页面内容。
+```
+
+## 格式化代码
+快捷键：ctrl+alt+l
+
+## 安装ui组件库
+```shell
+npm i --save ant-design-vue
+```
+
+### 在 vue 中引入该 ui 组件
+在 `main.js` 中输入：
+```js
+import Antd from 'ant-design-vue';
+import 'ant-design-vue/dist/antd.css';
+
+app.use(Antd)
+```
+
+### 图标的引入
+去阿里巴巴的图标库里面：icfont。
+将代码复制到 assets/css/iconfont.css 中，即可通过 class 来进行使用
+
+### 字体图标的引入
