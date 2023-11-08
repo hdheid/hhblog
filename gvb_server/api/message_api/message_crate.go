@@ -9,7 +9,7 @@ import (
 
 type MessageRequest struct {
 	SendUserID uint   `json:"send_user_id" binding:"required"` //发送人id
-	RecUserID  uint   `json:"rec_user_id" binding:"required"`  //接收人id
+	RevUserID  uint   `json:"rev_user_id" binding:"required"`  //接收人id
 	Content    string `json:"content" binging:"required"`      //消息内容
 }
 
@@ -34,8 +34,8 @@ func (MessageApi) MessageCreateView(c *gin.Context) {
 		return
 	}
 
-	var recUser models.UserModel
-	err = global.DB.Take(&recUser, cr.RecUserID).Error
+	var revUser models.UserModel
+	err = global.DB.Take(&revUser, cr.RevUserID).Error
 	if err != nil {
 		global.Log.Errorf("查询接收人失败 %s", err)
 		common.FailWithMessage("查询接收人失败", c)
@@ -47,9 +47,9 @@ func (MessageApi) MessageCreateView(c *gin.Context) {
 		SendUserID:       cr.SendUserID,
 		SendUserNickName: sendUser.NickName,
 		SendUserAvatar:   sendUser.Avatar,
-		RevUserID:        cr.RecUserID,
-		RevUserNickName:  recUser.NickName,
-		RevUserAvatar:    recUser.Avatar,
+		RevUserID:        cr.RevUserID,
+		RevUserNickName:  revUser.NickName,
+		RevUserAvatar:    revUser.Avatar,
 		IsRead:           false,
 		Content:          cr.Content,
 	}).Error
