@@ -11,4 +11,6 @@ func MessageRouter(r *gin.RouterGroup) {
 	r.POST("/messages", middleware.JwtAuth(), MessageApi.MessageCreateView)
 	r.GET("/messages_all", middleware.JwtAuth(), MessageApi.MessageListAllView)
 	r.GET("/messages", middleware.JwtAuth(), MessageApi.MessageListView)
+	r.GET("/messages_record", middleware.JwtAuth(), MessageApi.MessageRecordView)
+
 }
