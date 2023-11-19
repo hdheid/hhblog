@@ -27,7 +27,7 @@ site_info:
   name: 枫枫知道
   job: 后端开发
   addr: 湖南长沙
-  slogan: 枫枫知道
+  slogan: 浩浩知道
   slogan_en: FENGFENGZHIDAO
   web: http://www.fengfengzhidao.com/
   bilibili_url: https://space.bilibili.com/359151217
@@ -45,7 +45,7 @@ email:
   host: smtp.qq.com
   port: 465
   user: 422537262@qq.com
-  password: "ldwirdrxlokcbhjj"
+  password: ldwirdrxlokcbhjj
   default_from_email: hdheid
   use_ssl: true
   user_tls: false
@@ -62,9 +62,9 @@ upload:
   size: 1
   path: static/file
 redis:
-  ip: "127.0.0.1"
+  ip: 127.0.0.1
   port: 6379
-  password: "wuwang222"
+  password: wuwang222
   pool_size: 100
 tx_map:
-  key: "LI3BZ-APYK3-Z5K3Y-OYN4A-V3DQO-ZBFYQ"
+  key: LI3BZ-APYK3-Z5K3Y-OYN4A-V3DQO-ZBFYQ

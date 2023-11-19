@@ -18,7 +18,7 @@ func UserRouter(r *gin.RouterGroup) {
 
 	r.POST("/email_login", userApi.EmailLoginView)
 	r.POST("/users", userApi.UserCreateView)
-	r.GET("/users", middleware.JwtAuth(), userApi.UserListView)
+	r.GET("/users", middleware.JwtAdmin(), userApi.UserListView)
 	r.PUT("/user_role", middleware.JwtAdmin(), userApi.UserUpdateRoleView)
 	r.PUT("/user_password", middleware.JwtAuth(), userApi.UserUpdatePassword)
 	r.POST("/user_logout", middleware.JwtAuth(), userApi.UserLogoutView)

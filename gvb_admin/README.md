@@ -88,6 +88,11 @@ app.use(Antd)
 
 ### 图标的引入
 去阿里巴巴的图标库里面：icfont。
-将代码复制到 assets/css/iconfont.css 中，即可通过 class 来进行使用
+将代码复制到 assets/css/iconfont.css 中，并在 main.js 中使用 `import "./assets/css/iconfont.css";`来引入，
+即可通过 class 来进行使用 ，这里选取的是使用在线的方式。
 
 ### 字体图标的引入
+官网：https://fontawesome.dashgame.com/
+下载命令：`npm install font-awesome --save`
+在 main.js 中使用 `import "font-awesome/css/font-awesome.min.css";` 来引入，
+即可通过 class 来进行使用，这里选取的是下载到本地的方式。
