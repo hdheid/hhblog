@@ -13,4 +13,5 @@ type Config struct {
 	Upload   Upload   `yaml:"upload"`
 	Redis    Redis    `yaml:"redis"`
 	TxMap    TxMap    `yaml:"tx_map"`
+	ES       ES       `yaml:"es"`
 }

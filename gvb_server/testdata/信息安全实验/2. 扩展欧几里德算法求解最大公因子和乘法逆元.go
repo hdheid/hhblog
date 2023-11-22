@@ -39,6 +39,6 @@ func main() {
 	if inverse == -1 {
 		fmt.Printf("%d 没有乘法逆元模 %d\n", a, m)
 	} else {
-		fmt.Printf("乘法逆元: %d\n", inverse)
+		fmt.Printf("%d 模 %d 的乘法逆元: %d\n", a, m, inverse)
 	}
 }

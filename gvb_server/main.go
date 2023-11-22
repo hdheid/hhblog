@@ -26,6 +26,9 @@ func main() {
 	//初始化Redis数据库
 	core.InitRedis()
 
+	//初始化es
+	core.InitES()
+
 	//命令行参数绑定
 	option := flag.Parse()
 	if flag.IsWebStop(option) {

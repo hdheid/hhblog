@@ -1,6 +1,10 @@
 package models
 
-import "gvb_server/models/ctype"
+import (
+	"context"
+	"gvb_server/global"
+	"gvb_server/models/ctype"
+)
 
 type ArticleModel struct {
 	ID        string `json:"id" structs:"id"`                 // es的id
@@ -29,4 +33,135 @@ type ArticleModel struct {
 	BannerUrl string `json:"banner_url" structs:"banner_url"` // 文章封面
 
 	Tags ctype.Array `json:"tags" structs:"tags"` // 文章标签
+}
+
+func (ArticleModel) Index() string {
+	return "article_index"
+}
+
+func (ArticleModel) Mapping() string {
+	return `
+{
+  "settings": {
+    "index":{
+      "max_result_window": "100000"
+    }
+  }, 
+  "mappings": {
+    "properties": {
+      "title": { 
+        "type": "text"
+      },
+      "keyword": { 
+        "type": "keyword"
+      },
+      "abstract": { 
+        "type": "text"
+      },
+      "content": { 
+        "type": "text"
+      },
+      "look_count": {
+        "type": "integer"
+      },
+      "comment_count": {
+        "type": "integer"
+      },
+      "digg_count": {
+        "type": "integer"
+      },
+      "collects_count": {
+        "type": "integer"
+      },
+      "user_id": {
+        "type": "integer"
+      },
+      "user_nick_name": { 
+        "type": "keyword"
+      },
+      "user_avatar": { 
+        "type": "keyword"
+      },
+      "category": { 
+        "type": "keyword"
+      },
+      "source": { 
+        "type": "keyword"
+      },
+      "link": { 
+        "type": "keyword"
+      },
+      "banner_id": {
+        "type": "integer"
+      },
+      "banner_url": { 
+        "type": "keyword"
+      },
+      "tags": { 
+        "type": "keyword"
+      },
+      "created_at":{
+        "type": "date",
+        "null_value": "null",
+        "format": "[yyyy-MM-dd HH:mm:ss]"
+      },
+      "updated_at":{
+        "type": "date",
+        "null_value": "null",
+        "format": "[yyyy-MM-dd HH:mm:ss]"
+      }
+    }
+  }
+}
+`
+}
+
+func (a ArticleModel) IndexExists() bool {
+	client := global.Client
+	exists, err := client.IndexExists(a.Index()).Do(context.Background())
+	if err != nil {
+		global.Log.Error(err.Error())
+		return exists
+	}
+	return exists
+}
+
+func (a ArticleModel) CreateIndex() error {
+	client := global.Client
+	if a.IndexExists() {
+		//有索引，那就删掉索引，然后再创建
+		a.RemoveIndex()
+	}
+	//无索引，就可以直接创建索引
+	createIndex, err := client.
+		CreateIndex(a.Index()).
+		BodyString(a.Mapping()).
+		Do(context.Background())
+	if err != nil {
+		global.Log.Error("创建索引失败：", err.Error())
+		return err
+	}
+	if !createIndex.Acknowledged {
+		global.Log.Error("创建失败：", err.Error())
+		return err
+	}
+	global.Log.Infof("索引 %s 创建成功！", a.Index())
+	return nil
+}
+
+func (a ArticleModel) RemoveIndex() error {
+	client := global.Client
+	global.Log.Info("索引存在，删除索引！")
+	indexDelete, err := client.DeleteIndex(a.Index()).Do(context.Background())
+	if err != nil {
+		global.Log.Error("删除索引失败：", err.Error())
+		return err
+	}
+	if !indexDelete.Acknowledged {
+		global.Log.Error("删除索引失败：", err.Error())
+		return err
+	}
+
+	global.Log.Info("删除索引成功！")
+	return nil
 }

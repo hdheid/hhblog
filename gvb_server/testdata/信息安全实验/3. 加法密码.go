@@ -11,16 +11,14 @@ func encrypt(plaintext string, k int) string {
 	for _, ch := range plaintext {
 		// 将字符转换为ASCII值
 		chASCII := int(ch)
-		// 应用加法密码加密公式
+		// 加法密码加密
 		var encryptedChar int
 		if unicode.IsUpper(ch) {
-			encryptedChar = (chASCII+k)%26 + 65
+			encryptedChar = ((chASCII-65)+k)%26 + 65
 		} else if unicode.IsLower(ch) {
-			encryptedChar = (chASCII+k)%26 + 97
+			encryptedChar = ((chASCII-97)+k)%26 + 97
 		}
-		// 将加密后的ASCII值转换回字符
 		encryptedCh := rune(encryptedChar)
-		// 将加密后的字符追加到密文中
 		ciphertext += string(encryptedCh)
 	}
 	return ciphertext
@@ -35,30 +33,22 @@ func decrypt(ciphertext string, k int) string {
 		// 应用加法密码解密公式
 		var decryptedChar int
 		if unicode.IsUpper(ch) {
-			decryptedChar = (chASCII-k+26)%26 + 65
+			decryptedChar = ((chASCII-65)-k+26)%26 + 65
 		} else if unicode.IsLower(ch) {
-			decryptedChar = (chASCII-k+26)%26 + 97
+			decryptedChar = ((chASCII-97)-k+26)%26 + 97
 		}
-		// 将解密后的ASCII值转换回字符
 		decryptedCh := rune(decryptedChar)
-		// 将解密后的字符追加到明文中
 		plaintext += string(decryptedCh)
 	}
 	return plaintext
 }
 
 func main() {
-	plaintext := "HellO"
+	plaintext := "Hello"
 	key := 3
+	fmt.Println("明文为：", plaintext)
 	ciphertext := encrypt(plaintext, key)
-	fmt.Println("密文:", ciphertext)
+	fmt.Println("密文为：", ciphertext)
 	decryptedText := decrypt(ciphertext, key)
-	fmt.Println("解密后的文本:", decryptedText)
+	fmt.Println("解密后为：", decryptedText)
 }
-
-/*
-这段代码定义了两个函数：Encrypt和Decrypt，分别用于加密和解密加法密码。
-Encrypt函数接收明文消息和密钥k，返回密文。
-Decrypt函数接收密文和相同的密钥k，返回解密后的明文。
-主函数通过使用密钥为3将明文"HELLO"加密，并将密文解密回原始明文进行演示。
-*/

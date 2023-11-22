@@ -68,3 +68,8 @@ redis:
   pool_size: 100
 tx_map:
   key: LI3BZ-APYK3-Z5K3Y-OYN4A-V3DQO-ZBFYQ
+es:
+  host: "http://127.0.0.1"
+  port: 9200
+  user:
+  password:

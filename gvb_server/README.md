@@ -106,3 +106,8 @@ session 的原理：
 在Go语言中，可以使用第三方库来根据用户的IP地址判断其所在的地理位置。一个常用的库是geoip2-golang，它提供了IP地址解析和地理位置查询的功能。
 在 go 中使用 geoip2-golang 同样需要下载一个第三方依赖：
 `go get github.com/oschwald/geoip2-golang`
+
+
+# ES的连接
+需要下载第三方依赖：
+`go get github.com/olivere/elastic/v7`

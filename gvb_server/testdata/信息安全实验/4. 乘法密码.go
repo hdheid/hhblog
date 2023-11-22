@@ -23,9 +23,7 @@ func encrypt_mul(plaintext string, k int) string {
 			chASCII -= 97
 			encryptedChar = (chASCII*k)%26 + 97
 		}
-		// 将加密后的ASCII值转换回字符
 		encryptedCh := rune(encryptedChar)
-		// 将加密后的字符追加到密文中
 		ciphertext += string(encryptedCh)
 	}
 	return ciphertext
@@ -52,9 +50,7 @@ func decrypt_mul(ciphertext string, k int) string {
 			chASCII -= 97
 			encryptedChar = (chASCII*kInverse)%26 + 97
 		}
-		// 将加密后的ASCII值转换回字符
 		encryptedCh := rune(encryptedChar)
-		// 将加密后的字符追加到密文中
 		plaintext += string(encryptedCh)
 	}
 	return plaintext
@@ -83,10 +79,11 @@ func modInverse_mul(a, m int) (int, error) {
 }
 
 func main() {
-	plaintext := "Aello"
+	plaintext := "Hello"
 	key := 5
+	fmt.Println("明文为：", plaintext)
 	ciphertext := encrypt_mul(plaintext, key)
-	fmt.Println("密文:", ciphertext)
+	fmt.Println("密文为：", ciphertext)
 	decryptedText := decrypt_mul(ciphertext, key)
-	fmt.Println("解密后的文本:", decryptedText)
+	fmt.Println("解密后为：", decryptedText)
 }

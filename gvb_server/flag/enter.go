@@ -8,7 +8,7 @@ import (
 type Option struct {
 	DB   bool
 	User string // -u admin  -u user
-	ES   bool   // -es create  -es delete
+	ES   string // -es create  -es delete
 	Dump string
 	Load string
 }
@@ -35,6 +35,7 @@ myprogram -name John
 func Parse() Option {
 	db := sys_flag.Bool("db", false, "初始化数据库")
 	user := sys_flag.String("u", "", "创建用户")
+	es := sys_flag.String("es", "", "es操作")
 
 	// 解析命令行参数写入注册的flag里
 	sys_flag.Parse()
@@ -42,6 +43,7 @@ func Parse() Option {
 	return Option{
 		DB:   *db,
 		User: *user,
+		ES:   *es,
 	}
 }
 
@@ -78,6 +80,12 @@ func SwitchOption(option Option) {
 	if option.User == "admin" || option.User == "user" {
 		//创建用户
 		CreateUser(option.User)
+		return
+	}
+
+	if option.ES == "create" {
+		//创建es
+		EsCreateIndex()
 		return
 	}
 }
