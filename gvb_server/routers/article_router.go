@@ -9,4 +9,6 @@ import (
 func ArticleRouter(r *gin.RouterGroup) {
 	articleApi := api.ApiGroupApp.ArticleApi
 	r.POST("/articles", middleware.JwtAdmin(), articleApi.ArticleCreateView)
+	r.GET("/articles", articleApi.ArticleListView)
+	r.GET("/articles/:id", articleApi.ArticleDetailView)
 }

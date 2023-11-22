@@ -122,3 +122,7 @@ session 的原理：
 # html 获取文本内容，xss过滤
 需要这个依赖：
 `go get github.com/PuerkitoBio/goquery`
+
+# 一个结构体想要在不同的接口下返回不同的json数据字段
+需要用到第三方库：
+`go get github.com/liu-cn/json-filter/filter`
