@@ -2,6 +2,8 @@ package models
 
 import (
 	"context"
+	"encoding/json"
+	"github.com/olivere/elastic/v7"
 	"gvb_server/global"
 	"gvb_server/models/ctype"
 )
@@ -164,4 +166,53 @@ func (a ArticleModel) RemoveIndex() error {
 
 	global.Log.Info("删除索引成功！")
 	return nil
+}
+
+//es文章的操作
+
+func (a *ArticleModel) Create() (err error) {
+	client := global.Client
+	indexResponse, err := client.Index().
+		Index(a.Index()).
+		BodyJson(a).
+		Refresh("true").
+		Do(context.Background())
+	if err != nil {
+		global.Log.Error(err.Error())
+		return err
+	}
+	a.ID = indexResponse.Id
+	return nil
+}
+
+// ISExistData 是否存在该文章
+func (a ArticleModel) ISExistData() bool {
+	client := global.Client
+	res, err := client.
+		Search(a.Index()).
+		Query(elastic.NewTermQuery("keyword", a.Title)).
+		Size(1).
+		Do(context.Background())
+	if err != nil {
+		global.Log.Error(err.Error())
+		return false
+	}
+	if res.Hits.TotalHits.Value > 0 {
+		return true
+	}
+	return false
+}
+
+func (a *ArticleModel) GetDataByID(id string) error {
+	client := global.Client
+	res, err := client.
+		Get().
+		Index(a.Index()).
+		Id(id).
+		Do(context.Background())
+	if err != nil {
+		return err
+	}
+	err = json.Unmarshal(res.Source, a)
+	return err
 }

@@ -17,5 +17,6 @@ func InitES() {
 		global.Log.Fatalf("es连接失败：%s", err.Error())
 	}
 
+	global.Log.Info("ES 连接成功!")
 	global.Client = c
 }

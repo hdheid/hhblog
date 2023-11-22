@@ -111,3 +111,14 @@ session 的原理：
 # ES的连接
 需要下载第三方依赖：
 `go get github.com/olivere/elastic/v7`
+
+
+# MarkDown 转 Html
+这里需要下载第三方依赖：
+`go get github.com/yuin/goldmark`  暂时先不用这个
+
+用这个：`go get github.com/russross/blackfriday`
+
+# html 获取文本内容，xss过滤
+需要这个依赖：
+`go get github.com/PuerkitoBio/goquery`
