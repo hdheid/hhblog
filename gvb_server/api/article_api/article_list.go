@@ -24,5 +24,13 @@ func (ArticleApi) ArticleListView(c *gin.Context) {
 		return
 	}
 
-	common.OKWithList(filter.Omit("list", list), int64(count), c)
+	//避免空值问题
+	dataList := filter.Omit("list", list)
+	_list, _ := dataList.(filter.Filter)
+	__list, _ := _list.MarshalJSON()
+	if string(__list) == "{}" {
+		dataList = make([]models.ArticleModel, 0)
+	}
+
+	common.OKWithList(dataList, int64(count), c)
 }

@@ -11,4 +11,6 @@ func ArticleRouter(r *gin.RouterGroup) {
 	r.POST("/articles", middleware.JwtAdmin(), articleApi.ArticleCreateView)
 	r.GET("/articles", articleApi.ArticleListView)
 	r.GET("/articles/:id", articleApi.ArticleDetailView)
+	r.GET("/articles/detail", articleApi.ArticleDetaiByTitlelView)
+	r.GET("/articles/calendar", articleApi.ArticleCalendarView)
 }

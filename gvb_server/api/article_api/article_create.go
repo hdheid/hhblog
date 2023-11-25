@@ -74,7 +74,7 @@ func (ArticleApi) ArticleCreateView(c *gin.Context) {
 		var bannerIdList []uint
 		global.DB.Model(&models.BannerModel{}).Select("id").Scan(&bannerIdList)
 		if len(bannerIdList) == 0 {
-			common.FailWithMessage("没有图片！", c)
+			common.FailWithMessage("请选择图片！", c)
 			return
 		}
 
@@ -121,6 +121,13 @@ func (ArticleApi) ArticleCreateView(c *gin.Context) {
 		Tags:         cr.Tags,
 	}
 
+	//如果该文章已经存在，那么就不能添加，标题不能相同
+	if article.ISExistData() {
+		common.FailWithMessage("标题已存在！", c)
+		global.Log.Debug("标题已存在！")
+		return
+	}
+
 	err = article.Create()
 	if err != nil {
 		common.FailWithMessage("文章创建失败！", c)
@@ -128,5 +135,5 @@ func (ArticleApi) ArticleCreateView(c *gin.Context) {
 		return
 	}
 
-	common.OKWithMessage("文章创建成功！", c)
+	common.OKWithMessage("文章发布成功！", c)
 }

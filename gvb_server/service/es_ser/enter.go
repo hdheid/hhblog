@@ -3,6 +3,7 @@ package es_ser
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"github.com/olivere/elastic/v7"
 	"gvb_server/global"
 	"gvb_server/models"
@@ -76,6 +77,35 @@ func CommonDetail(id string) (article models.ArticleModel, err error) {
 	}
 
 	article.ID = res.Id
+
+	return article, nil
+}
+
+func CommonDetailByKeyword(key string) (article models.ArticleModel, err error) {
+	client := global.Client
+	res, err := client.Search().
+		Index(models.ArticleModel{}.Index()).
+		Query(elastic.NewTermQuery("keyword", key)).
+		Size(1).
+		Do(context.Background())
+	if err != nil {
+		global.Log.Error(err.Error())
+		return article, err
+	}
+
+	if res.Hits.TotalHits.Value == 0 {
+		return article, errors.New("文章不存在！")
+	}
+
+	hit := res.Hits.Hits[0]
+
+	err = json.Unmarshal(hit.Source, &article)
+	if err != nil {
+		global.Log.Error(err.Error())
+		return article, err
+	}
+
+	article.ID = hit.Id
 
 	return article, nil
 }

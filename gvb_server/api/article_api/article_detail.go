@@ -23,7 +23,30 @@ func (ArticleApi) ArticleDetailView(c *gin.Context) {
 	article, err := es_ser.CommonDetail(cr.ID)
 	if err != nil {
 		global.Log.Errorf("查询失败：%s", err.Error())
-		common.FailWithMessage("查询失败！", c)
+		common.FailWithMessage("文章不存在！", c)
+		return
+	}
+
+	common.OKWithData(article, c)
+}
+
+type ArticleDetailRequest struct {
+	Title string `json:"title" form:"title"`
+}
+
+func (ArticleApi) ArticleDetaiByTitlelView(c *gin.Context) {
+	var cr ArticleDetailRequest
+	err := c.ShouldBindQuery(&cr)
+	if err != nil {
+		global.Log.Error(err.Error())
+		common.FailWithCode(common.ArgumentError, c)
+		return
+	}
+
+	article, err := es_ser.CommonDetailByKeyword(cr.Title)
+	if err != nil {
+		global.Log.Errorf("查询失败：%s", err.Error())
+		common.FailWithMessage("文章不存在！", c)
 		return
 	}
 
