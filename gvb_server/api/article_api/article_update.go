@@ -59,6 +59,14 @@ func (ArticleApi) ArticleUpdateView(c *gin.Context) {
 		Tags:      cr.Tags,
 	}
 
+	//判断该文章是否存在
+	err = article.GetDataByID(cr.ID)
+	if err != nil {
+		global.Log.Error(err)
+		common.FailWithMessage("文章不存在！", c)
+		return
+	}
+
 	//如果tags不为空，这里需要加一个tags入库的逻辑，遍历tas，判断数据库里面有没有，然后添加进去
 
 	maps := structs.Map(&article)

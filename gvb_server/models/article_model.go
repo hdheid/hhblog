@@ -2,7 +2,7 @@ package models
 
 import (
 	"context"
-	"encoding/json"
+	"errors"
 	"github.com/olivere/elastic/v7"
 	"gvb_server/global"
 	"gvb_server/models/ctype"
@@ -213,6 +213,10 @@ func (a *ArticleModel) GetDataByID(id string) error {
 	if err != nil {
 		return err
 	}
-	err = json.Unmarshal(res.Source, a)
-	return err
+	if res.Found == false { //补充逻辑，没找到文章不会报错
+		return errors.New("文章不存在")
+	}
+
+	//err = json.Unmarshal(res.Source, a) //这里将数据传到a中后，是否就会出现问题？暂时先不需要这个
+	return nil
 }

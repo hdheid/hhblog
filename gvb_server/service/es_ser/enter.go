@@ -4,33 +4,70 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"github.com/olivere/elastic/v7"
 	"gvb_server/global"
 	"gvb_server/models"
+	"strings"
 )
 
-func CommonList(key string, page, limit int) (articleList []models.ArticleModel, count int, err error) {
+type Option struct {
+	Page   int    `form:"page"`
+	Key    string `form:"key"`
+	Limit  int    `form:"limit"`
+	Sort   string `form:"sort"`
+	Fields []string
+	Tag    string `form:"tag"`
+}
+
+type SortFiled struct {
+	Field     string
+	Ascending bool
+}
+
+func (o *Option) GetForm() int {
+	if o.Page == 0 {
+		o.Page = 1
+	}
+	if o.Limit == 0 {
+		o.Limit = 10
+	}
+
+	return (o.Page - 1) * o.Limit
+}
+
+func CommonList(option Option) (articleList []models.ArticleModel, count int, err error) {
 	client := global.Client
 
 	boolSearch := elastic.NewBoolQuery()
-	from := page
-	if key != "" {
+
+	if option.Key != "" {
 		boolSearch.Must(
-			elastic.NewMatchQuery("title", key),
+			elastic.NewMultiMatchQuery(option.Key, option.Fields...),
 		)
 	}
 
-	if limit == 0 {
-		limit = 10
+	if option.Tag != "" {
+		boolSearch.Must(
+			elastic.NewMultiMatchQuery(option.Tag, "tags"),
+		)
 	}
-	if from == 0 {
-		from = 1
+
+	sortFiled := SortFiled{"created_at", false} //默认按照时间从近到远排列
+	if option.Sort != "" {
+		list := strings.Split(option.Sort, " ")
+		if len(list) == 2 {
+			sortFiled.Field = list[0]              //排序的key
+			sortFiled.Ascending = list[1] == "asc" //从大到小还是从小到大
+		}
 	}
 
 	res, err := client.Search(models.ArticleModel{}.Index()).
 		Query(boolSearch).
-		From((from - 1) * limit).
-		Size(limit).
+		From(option.GetForm()).
+		Highlight(elastic.NewHighlight().Field("title")). //es关于搜索高亮的一些东西，只搜索了标题
+		Sort(sortFiled.Field, sortFiled.Ascending).
+		Size(option.Limit).
 		Do(context.Background())
 
 	if err != nil {
@@ -51,7 +88,10 @@ func CommonList(key string, page, limit int) (articleList []models.ArticleModel,
 			global.Log.Error(err.Error())
 			return articleList, count, err
 		}
-
+		if title, ok := hit.Highlight["title"]; ok {
+			a.Title = title[0]
+		}
+		fmt.Println(hit.Highlight)
 		a.ID = hit.Id
 		articleList = append(articleList, a)
 	}
