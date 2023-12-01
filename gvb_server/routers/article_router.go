@@ -16,4 +16,8 @@ func ArticleRouter(r *gin.RouterGroup) {
 	r.GET("/articles/tags", articleApi.ArticleTagListView)
 	r.PUT("/articles", articleApi.ArticleUpdateView)
 	r.DELETE("/articles", articleApi.ArticleRemoveView)
+	r.POST("/articles/collects", middleware.JwtAuth(), articleApi.ArticleCollCreateView)
+	r.GET("/articles/collects", middleware.JwtAuth(), articleApi.ArticleCollListView)
+	r.DELETE("/articles/collects", middleware.JwtAuth(), articleApi.ArticleCollBatchRemoveView)
+	r.GET("/articles/text", articleApi.FullTextSearchView) //全文搜索接口
 }

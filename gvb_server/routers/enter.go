@@ -29,6 +29,7 @@ func InitRouter() *gin.Engine {
 		TagRouter(apiRouterGroup)      //标签管理接口
 		MessageRouter(apiRouterGroup)  //消息管理接口
 		ArticleRouter(apiRouterGroup)  //文章管理接口
+		DiggRouter(apiRouterGroup)     //点赞管理接口
 	}
 
 	return r

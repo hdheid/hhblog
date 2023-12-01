@@ -1,13 +1,13 @@
 package article_api
 
 import (
-	"context"
 	"github.com/fatih/structs"
 	"github.com/gin-gonic/gin"
 	"gvb_server/global"
 	"gvb_server/models"
 	"gvb_server/models/common"
 	"gvb_server/models/ctype"
+	"gvb_server/service/es_ser"
 	"time"
 )
 
@@ -66,6 +66,13 @@ func (ArticleApi) ArticleUpdateView(c *gin.Context) {
 		common.FailWithMessage("文章不存在！", c)
 		return
 	}
+	//这里拿到旧的article数据，这里是我自己加的
+	oldArticle, err := es_ser.CommonDetail(cr.ID)
+	if err != nil {
+		global.Log.Error(err)
+		common.FailWithMessage("文章不存在！", c)
+		return
+	}
 
 	//如果tags不为空，这里需要加一个tags入库的逻辑，遍历tas，判断数据库里面有没有，然后添加进去
 
@@ -94,17 +101,22 @@ func (ArticleApi) ArticleUpdateView(c *gin.Context) {
 		dataMap[key] = val
 	}
 
-	_, err = client.
-		Update().
-		Index(models.ArticleModel{}.Index()).
-		Id(cr.ID).
-		Doc(dataMap).
-		Do(context.Background())
-
+	err = es_ser.ArticleUpdate(client, cr.ID, dataMap)
 	if err != nil {
 		global.Log.Errorf("更新失败：%s", err.Error())
 		common.FailWithMessage("更新失败！", c)
 		return
+	}
+
+	//更新成功，同步数据到全文搜索中
+	newArticle, err := es_ser.CommonDetail(cr.ID)
+	if err != nil {
+		global.Log.Errorf("更新全文搜索失败：%s", err.Error())
+	}
+
+	if oldArticle.Content != newArticle.Content || oldArticle.Title != newArticle.Title {
+		es_ser.DeleteFullTextByArticleId(cr.ID)
+		es_ser.AsyncArticleByFullText(cr.ID, newArticle.Title, newArticle.Content)
 	}
 
 	common.OKWithMessage("更新成功！", c)

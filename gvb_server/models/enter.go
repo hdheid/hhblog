@@ -13,6 +13,14 @@ type RemoveRequest struct {
 	IDList []uint `json:"id_list"`
 }
 
+type ESIdRequest struct {
+	ID string `json:"id" form:"id" uri:"id"`
+}
+
+type ESIdListRequest struct {
+	IDList []string `json:"id_list" form:"id" uri:"id"`
+}
+
 type PageInfo struct {
 	Page  int    `form:"page"`  //标签 form:"page" 表示该字段可以从表单数据中获取名为 "page" 的值。
 	Key   string `form:"key"`   //标签 form:"key" 表示该字段可以从表单数据中获取名为 "key" 的值。

@@ -9,6 +9,7 @@ import (
 	"gvb_server/models"
 	"gvb_server/models/common"
 	"gvb_server/models/ctype"
+	"gvb_server/service/es_ser"
 	"gvb_server/utils/jwts"
 	"math/rand"
 	"strings"
@@ -134,6 +135,8 @@ func (ArticleApi) ArticleCreateView(c *gin.Context) {
 		global.Log.Debug("文章创建失败！")
 		return
 	}
+
+	go es_ser.AsyncArticleByFullText(article.ID, article.Title, article.Content) //异步生成全文搜索索引
 
 	common.OKWithMessage("文章发布成功！", c)
 }
