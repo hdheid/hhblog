@@ -7,6 +7,6 @@ import (
 )
 
 func DiggRouter(r *gin.RouterGroup) {
-	diggApi := api.ApiGroupApp.Digg
+	diggApi := api.ApiGroupApp.DiggApi
 	r.POST("/digg/article", middleware.JwtAdmin(), diggApi.DiggArticleView)
 }

@@ -19,7 +19,7 @@ func (DiggApi) DiggArticleView(c *gin.Context) {
 		return
 	}
 
-	err = redis_ser.Digg(cr.ID)
+	err = redis_ser.NewDigg().Set(cr.ID)
 	if err != nil {
 		global.Log.Error(err.Error())
 		common.FailWithMessage("点赞失败！", c)

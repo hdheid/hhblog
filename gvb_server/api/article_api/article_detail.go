@@ -18,7 +18,7 @@ func (ArticleApi) ArticleDetailView(c *gin.Context) {
 		return
 	}
 
-	redis_ser.Look(cr.ID) //当调用这个接口的时候，就表示该文章被浏览了一次，因此浏览量可以加一
+	redis_ser.NewArticleLook().Set(cr.ID) //当调用这个接口的时候，就表示该文章被浏览了一次，因此浏览量可以加一
 
 	article, err := es_ser.CommonDetail(cr.ID)
 	if err != nil {

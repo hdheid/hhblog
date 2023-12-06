@@ -26,8 +26,8 @@ func main() {
 		return
 	}
 
-	diggInfo := redis_ser.GetDiggsInfo() //获取数据
-	lookInfo := redis_ser.GetLookInfo()  //获取浏览量
+	diggInfo := redis_ser.NewDigg().GetInfo()        //获取数据
+	lookInfo := redis_ser.NewArticleLook().GetInfo() //获取浏览量
 	for _, hit := range res.Hits.Hits {
 		var article models.ArticleModel
 		err = json.Unmarshal(hit.Source, &article) //这里article的ID并没有被赋值
@@ -58,8 +58,8 @@ func main() {
 		global.Log.Infof("%s 的点赞量和浏览数同步成功！点赞数为：%d，浏览数为：%d", article.Title, article.DiggCount, article.LookCount)
 	}
 
-	redis_ser.DiggClear() //删除redis的点赞数据
-	redis_ser.LookClear() //删除redis的浏览数据
+	redis_ser.NewDigg().Clear()        //删除redis的点赞数据
+	redis_ser.NewArticleLook().Clear() //删除redis的浏览数据
 }
 
 /*

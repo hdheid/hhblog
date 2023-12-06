@@ -12,7 +12,7 @@ func main() {
 	core.InitRedis()
 
 	//redis_ser.Digg("6elR9osBUTARvWsVp8_C") //点赞操作
-	fmt.Println(redis_ser.GetDiggsInfo()) //获取所有点赞数据
+	fmt.Println(redis_ser.NewDigg().GetInfo()) //获取所有点赞数据
 
 	//redis_ser.DiggClear()
 }

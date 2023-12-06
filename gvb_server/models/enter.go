@@ -3,9 +3,9 @@ package models
 import "time"
 
 type MODEL struct {
-	ID        uint      `gorm:"primarykey" json:"id"` //主键ID
-	CreatedAt time.Time `json:"created_at"`           //创建时间
-	UpdatedAt time.Time `json:"-"`                    //更新时间
+	ID        uint      `gorm:"primarykey" json:"id,select($any)" structs:"-"` // 主键ID
+	CreatedAt time.Time `json:"created_at,select($any)" structs:"-"`           // 创建时间
+	UpdatedAt time.Time `json:"-" structs:"-"`                                 // 更新时间
 }
 
 // RemoveRequest 删除列表

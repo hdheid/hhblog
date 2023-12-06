@@ -48,6 +48,7 @@ func (ArticleApi) ArticleUpdateView(c *gin.Context) {
 	article := models.ArticleModel{
 		UpdatedAt: time.Now().Format(time.DateTime),
 		Title:     cr.Title,
+
 		Keyword:   cr.Title,
 		Abstract:  cr.Abstract,
 		Content:   cr.Content,

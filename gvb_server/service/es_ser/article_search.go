@@ -51,8 +51,8 @@ func CommonList(option Option) (articleList []models.ArticleModel, count int, er
 	}
 
 	count = int(res.Hits.TotalHits.Value) //搜索结果的总条数
-	diggInfo := redis_ser.GetDiggsInfo()
-	lookInfo := redis_ser.GetLookInfo()
+	diggInfo := redis_ser.NewDigg().GetInfo()
+	lookInfo := redis_ser.NewArticleLook().GetInfo()
 
 	for _, hit := range res.Hits.Hits {
 		var a models.ArticleModel
@@ -103,6 +103,10 @@ func CommonDetail(id string) (article models.ArticleModel, err error) {
 		return article, err
 	}
 
+	if res.Found == false { //补充逻辑，没找到文章不会报错
+		return article, errors.New("文章不存在")
+	}
+
 	err = json.Unmarshal(res.Source, &article)
 	if err != nil {
 		global.Log.Error(err.Error())
@@ -112,7 +116,7 @@ func CommonDetail(id string) (article models.ArticleModel, err error) {
 	article.ID = res.Id
 
 	//文章浏览量
-	look, _ := redis_ser.GetLook(article.ID)
+	look, _ := redis_ser.NewArticleLook().Get(article.ID)
 	article.LookCount = article.LookCount + look
 
 	return article, nil
