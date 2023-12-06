@@ -9,5 +9,6 @@ import (
 func CommentRouter(r *gin.RouterGroup) {
 	commentApi := api.ApiGroupApp.CommentApi
 	r.POST("/comments", middleware.JwtAdmin(), commentApi.CommentCreateView)
-	r.GET("/comments", commentApi.CommentList)
+	r.GET("/comments", commentApi.CommentListView)
+	r.POST("/comments/:id", commentApi.CommentDiggView)
 }
