@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"os"
 	"strings"
+	"time"
 )
 
 type RequestBody struct {
@@ -40,6 +41,17 @@ type Response struct {
 }
 
 func getChat(content string) (string, error) {
+	// 创建一个通道用于接收信号
+	done := make(chan bool)
+	// 启动B函数，并传递通道作为参数
+	go func() {
+		spinner(done)
+	}()
+	// getChat函数结束时发送信号给通道
+	defer func() {
+		done <- true
+	}()
+
 	var body RequestBody
 	body.Model = "qwen-max"
 	body.Input.Messages = append(body.Input.Messages, struct {
@@ -86,21 +98,38 @@ func getChat(content string) (string, error) {
 	return response.Output.Text, nil
 }
 
+func spinner(done chan bool) {
+	// B函数的死循环逻辑
+	for {
+		select {
+		case <-done: // 接收到信号，退出循环
+			return
+		default:
+			// 执行B函数的逻辑
+			for _, r := range `-\|/` {
+				fmt.Printf("\r思考中%c", r)
+				time.Sleep(100 * time.Millisecond)
+			}
+		}
+	}
+}
+
 func main() {
 	for {
 		fmt.Print("请输入你的问题：")
 		reader := bufio.NewReader(os.Stdin)
 		content, _ := reader.ReadString('\n')
 		content = strings.TrimSpace(content)
-		if content == "退出" {
+		if content == "退出" || content == "exit" {
 			break
 		}
 
 		result, err := getChat(content)
 		if err != nil {
-			fmt.Println("调用失败！")
+			fmt.Println("\r调用失败！")
+			continue
 		}
-		fmt.Println("AI大模型：", result)
+		fmt.Println("\rAI大模型：", result)
 		fmt.Println()
 	}
 }

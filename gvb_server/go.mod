@@ -11,6 +11,7 @@ require (
 	github.com/gin-gonic/gin v1.9.1
 	github.com/go-playground/validator/v10 v10.15.5
 	github.com/go-redis/redis v6.15.9+incompatible
+	github.com/liu-cn/json-filter v0.0.0-20231031155842-1482cfe60210
 	github.com/olivere/elastic/v7 v7.0.32
 	github.com/qiniu/go-sdk/v7 v7.17.1
 	github.com/russross/blackfriday v1.6.0
@@ -51,7 +52,6 @@ require (
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.5 // indirect
 	github.com/leodido/go-urn v1.2.4 // indirect
-	github.com/liu-cn/json-filter v0.0.0-20231031155842-1482cfe60210 // indirect
 	github.com/mailru/easyjson v0.7.7 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect

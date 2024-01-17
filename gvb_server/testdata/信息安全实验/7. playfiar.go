@@ -44,7 +44,7 @@ func (m *Martix) NewMatrix() error {
 	}
 
 	//将矩阵输出
-	fmt.Println("The matrix is: ")
+	fmt.Println("矩阵: ")
 	for _, runes := range m.ma {
 		for _, ch := range runes {
 			fmt.Printf("%c ", ch)
@@ -63,6 +63,7 @@ func (m *Martix) encryption(plaintext string) (ciphertext string) {
 			m.posJ = append(m.posJ, i)
 		}
 	}
+
 	plaintext = strings.ReplaceAll(plaintext, "J", "I") //将J全部置换为I
 	for i := 0; i < len(plaintext)-1; i += 2 {
 		if plaintext[i] == plaintext[i+1] {
@@ -116,11 +117,9 @@ func (m *Martix) decryption(ciphertext string) (plaintext string) {
 		plaintext += decryptedPair
 	}
 
+	//这块有bug
 	//整理解密后的明文
 	plaintextByte := []byte(plaintext)
-	for _, cnt := range m.posJ {
-		plaintextByte[cnt] = 'J'
-	}
 	// 去除插入的'X'
 	for _, cnt := range m.posX {
 		if cnt == 0 {
@@ -130,6 +129,9 @@ func (m *Martix) decryption(ciphertext string) (plaintext string) {
 		}
 	}
 
+	for _, cnt := range m.posJ {
+		plaintextByte[cnt] = byte('J')
+	}
 	plaintext = string(plaintextByte)
 
 	//如果是循环输入，那么需要清空posX和posY
@@ -143,7 +145,7 @@ func main() {
 	var mar Martix
 	mar.New().NewMatrix() //初始化矩阵
 
-	miwen := mar.encryption("HELLOWORLD")
+	miwen := mar.encryption("XHELLIIOWOJJRLD")
 	fmt.Println("密文：", miwen)
 
 	minwen := mar.decryption(miwen)
