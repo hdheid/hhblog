@@ -1,3 +1,4 @@
 .idea
 .air.toml
 settings.yaml
+static/Location/GeoLite2-City.mmdb
