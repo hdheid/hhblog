@@ -11,7 +11,7 @@ type SQ struct {
 	Data [][]float64
 }
 
-//矩阵定义
+// 矩阵定义
 func (this *SQ) Set(m int, n int, data []float64) {
 	//m是列数,n是⾏数,data是矩阵数据（从左到右由上到下填充）
 	this.M = m
@@ -80,7 +80,7 @@ func Transpose(a SQ) SQ {
 	return b
 }
 
-//计算n阶行列式（N=n-1）
+// 计算n阶行列式（N=n-1）
 func Det(Matrix [][]float64, N int) float64 {
 	var T0, T1, T2, Cha int
 	var Num float64
@@ -115,7 +115,7 @@ func Det(Matrix [][]float64, N int) float64 {
 	return 0
 }
 
-//矩阵求逆（N=n-1）
+// 矩阵求逆（N=n-1）
 func Inverse(S1 SQ) (MatrixC [][]float64) {
 	N := S1.N - 1
 	Matrix := S1.Data
@@ -165,7 +165,7 @@ func Inverse(S1 SQ) (MatrixC [][]float64) {
 	return MatrixC
 }
 
-func main(){
+func main() {
 	var martix SQ
 	key := []float64{17, 17, 5, 21, 18, 21, 2, 2, 9}
 	martix.Set(3, 3, key)
