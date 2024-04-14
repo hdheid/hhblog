@@ -19,7 +19,6 @@ jobs:
       - name: Build
         run: |
           cd gvb_server
-#         go build -v -o app ./main.go
           go build -v -a -ldflags '-extldflags "-static"' -o app ./main.go
           ls -l app  # 显示生成的可执行文件信息
 
@@ -33,7 +32,6 @@ jobs:
           name: hhblog
 #          path: ./gvb_server # 实际的可执行文件路径
           path: gvb_server/app  # 上传可执行文件作为构建产物
-
 
   deploy:
     needs: build
