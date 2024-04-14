@@ -18,8 +18,8 @@ jobs:
 
       - name: Build
         run: |
-          go list gvb_server/...
-          go build -o hhblog gvb_server/...
+          ls
+          ls gvb_server
 
 #      - name: Test
 #        run: go test -v ./...
