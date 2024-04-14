@@ -18,8 +18,9 @@ jobs:
 
       - name: Build
         run: |
-          ls
           ls gvb_server
+          pwd
+          go build -v gvb_server/...
 
 #      - name: Test
 #        run: go test -v ./...
