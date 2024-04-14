@@ -27,10 +27,10 @@ jobs:
       - name: Show current directory
         run: |
           pwd            # 打印当前工作目录
-          ls             # 列出当前目录内容
-          cd gvb_server
-          pwd            # 打印当前工作目录
-          ls             # 列出当前目录内容
+          ls gvb_server             # 列出当前目录内容
+#          cd gvb_server
+#          pwd            # 打印当前工作目录
+#          ls             # 列出当前目录内容
 
       - name: golangci-lint
         uses: golangci/golangci-lint-action@v4
