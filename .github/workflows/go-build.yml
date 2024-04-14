@@ -1,21 +1,4 @@
 name: Build_hhblog
-
-#on:
-#  push:
-#    branches:
-#      - "master"
-#      - "develop"
-#    paths-ignore: # 下列文件的变更不触发工作流
-#      - README.md
-#      - LICENSE
-#  pull_request:
-#    branches:
-#      - "master"
-#      - "develop"
-#    paths-ignore: # 下列文件的变更不触发工作流
-#      - README.md
-#      - LICENSE
-
 on:
   push:
     branches:
