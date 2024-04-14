@@ -43,7 +43,10 @@ jobs:
           name: hhblog
           path: deploy  # 下载构建产物到 deploy 目录
 
-      - run: ls -l deploy
+      - run: |
+          pwd
+          cd deploy
+          pwd
 
       - name: Deploy to Server
         uses: appleboy/ssh-action@master
