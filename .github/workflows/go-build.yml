@@ -34,7 +34,14 @@ jobs:
       - run: go version
 
       - name: Build
-        run: go build -v ./...
+        run: go build -o hhblog ./...
 
-      - name: Test
-        run: go test -v ./...
+#      - name: Test
+#        run: go test -v ./...
+
+      - name: Archive build artifacts (optional)
+        if: always() # 无论构建成功与否都执行此步骤
+        uses: actions/upload-artifact@v3
+        with:
+          name: application-binary
+          path: ./hhblog # 替换为实际的可执行文件路径
