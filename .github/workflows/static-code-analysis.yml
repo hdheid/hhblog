@@ -27,7 +27,7 @@ jobs:
       - name: Show current directory
         run: |
           pwd            # 打印当前工作目录
-          ls gvb_server             # 列出当前目录内容
+          ls            # 列出当前目录内容
 #          cd gvb_server
 #          pwd            # 打印当前工作目录
 #          ls             # 列出当前目录内容
@@ -43,7 +43,7 @@ jobs:
           version: v1.54
 
           # Optional: working directory, useful for monorepos
-          # working-directory: somedir
+          working-directory: gvb_server
 
           # Optional: golangci-lint command line arguments.
           #
