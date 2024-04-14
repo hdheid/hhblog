@@ -19,7 +19,8 @@ jobs:
       - name: Build
         run: |
           cd gvb_server
-          go build -v -o app ./main.go
+#         go build -v -o app ./main.go
+          go build -v -a -ldflags '-extldflags "-static"' -o app ./main.go
           ls -l app  # 显示生成的可执行文件信息
 
 #      - name: Test
@@ -32,3 +33,25 @@ jobs:
           name: hhblog
 #          path: ./gvb_server # 实际的可执行文件路径
           path: gvb_server/app  # 上传可执行文件作为构建产物
+
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: hhblog
+          path: deploy  # 下载构建产物到 deploy 目录
+
+      - name: Deploy to Server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          script: |
+            cd /root/Download/hhblog
+            mv ~/deploy/app ./app
+#            ./app  # 运行部署的应用程序
