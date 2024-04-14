@@ -1,0 +1,35 @@
+name: Build_hhblog
+
+on:
+  push:
+    branches:
+      - "master"
+      - "develop"
+    paths-ignore: # 下列文件的变更不触发工作流
+      - README.md
+      - LICENSE
+  pull_request:
+    branches:
+      - "master"
+      - "develop"
+    paths-ignore: # 下列文件的变更不触发工作流
+      - README.md
+      - LICENSE
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3 #检出代码仓库中的代码
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.20'
+      - run: go version
+
+      - name: Build
+        run: go build -v ./...
+
+      - name: Test
+        run: go test -v ./...
