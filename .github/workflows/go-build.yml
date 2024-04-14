@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4 #检出代码仓库中的代码
 
-      - run: ls
+      - run: cd gvb_server
 
       - name: Set up Go
         uses: actions/setup-go@v5
