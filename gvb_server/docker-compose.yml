@@ -1,0 +1,87 @@
+version: "3.8"
+
+services:
+  hhblog:
+    build: .
+    image: hhblog:v1.0
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+    container_name: hhblog
+    depends_on: #依赖关系，启动顺序
+      - mysql
+      - redis
+      - elasticsearch
+    ports:
+      - "8080:8080"
+    networks:
+      - backend
+    restart: always
+  mysql:
+    image: mysql:8.0.27
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+    container_name: gvb_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: Wuwang222
+      MYSQL_DATABASE: gvb_db
+    ports:
+      - "3306:3306"
+    volumes:
+#      - mysql_data:/var/lib/mysql #数据持久化
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    #提高低版本MySQL的兼容性
+    command:
+      --default-authentication-plugin=mysql_native_password
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_general_ci
+    networks:
+      - backend
+    restart: always
+
+  redis:
+    image: redis:5.0.14
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+    container_name: gvb_redis
+    environment:
+      REDIS_PASSWORD: wuwang222
+    ports:
+      - "6379:6379"
+#    volumes: #数据持久化
+#      - redis_data:/data
+    networks:
+      - backend
+    restart: always
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.12.0
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+    container_name: gvb_es
+    environment:
+      discovery.type: single-node
+      ES_JAVA_OPTS: "-Xms1g -Xmx1g"
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+#    volumes: #数据持久化
+#      - es_data:/usr/share/elasticsearch/data
+    networks:
+      - backend
+    restart: always
+
+networks:
+  backend:
+
+#volumes:
+#  mysql_data:
+#  redis_data:
+#  es_data:
