@@ -47,6 +47,7 @@ jobs:
           pwd
           cd deploy
           pwd
+          ls
 
       - name: Deploy to Server
         uses: appleboy/ssh-action@master
