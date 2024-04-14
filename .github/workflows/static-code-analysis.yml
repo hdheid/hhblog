@@ -17,8 +17,6 @@ jobs:
     name: lint
     runs-on: ubuntu-latest
     steps:
-      - run: cd /gvb_server
-
       - uses: actions/checkout@v4
 
       - uses: actions/setup-go@v5
