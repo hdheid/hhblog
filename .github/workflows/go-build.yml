@@ -50,6 +50,6 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd /path/to/deploy/directory
+            cd /root/Download/hhblog
             mv ~/deploy/app ./app
 #            ./app  # 运行部署的应用程序
