@@ -31,4 +31,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: application-binary
-          path: ./hhblog/gvb_server # 替换为实际的可执行文件路径
+          run: |
+            cd gvb_server
+            ls
+          path: ./gvb_server # 替换为实际的可执行文件路径
