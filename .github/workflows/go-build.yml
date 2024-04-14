@@ -53,5 +53,5 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd /root/Download/hhblog
-            mv ~/deploy/app ./app
+            mv deploy/app ./app
 #            ./app  # 运行部署的应用程序
