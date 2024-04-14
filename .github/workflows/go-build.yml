@@ -1,4 +1,4 @@
-name: Build_hhblog
+name: hhblog_build
 on:
   push:
     branches:
@@ -10,6 +10,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4 #检出代码仓库中的代码
 
+      - run: |
+          cd gvb_server 
+          pwd
+          ls
+
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
@@ -19,7 +24,7 @@ jobs:
       - name: Build
         run: |
           ls gvb_server
-          cd gvb_server
+#          cd gvb_server
           pwd
           go build -v ./...
 
@@ -31,7 +36,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: hhblog
-          run: |
-            cd gvb_server
-            ls
-          path: ./gvb_server # 替换为实际的可执行文件路径
+          path: ./gvb_server # 实际的可执行文件路径
