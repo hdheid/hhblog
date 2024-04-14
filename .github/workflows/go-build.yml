@@ -19,8 +19,9 @@ jobs:
       - name: Build
         run: |
           ls gvb_server
+          cd gvb_server
           pwd
-          go build -v gvb_server/...
+          go build -v ./...
 
 #      - name: Test
 #        run: go test -v ./...
@@ -30,4 +31,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: application-binary
-          path: ./hhblog # 替换为实际的可执行文件路径
+          path: ./hhblog/gvb_server # 替换为实际的可执行文件路径
