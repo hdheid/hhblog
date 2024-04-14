@@ -30,7 +30,7 @@ jobs:
         if: always() # 无论构建成功与否都执行此步骤
         uses: actions/upload-artifact@v3
         with:
-          name: application-binary
+          name: hhblog
           run: |
             cd gvb_server
             ls
