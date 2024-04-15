@@ -52,9 +52,9 @@ jobs:
       - name: deploy file to server
         uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
-          username: ${{ secrets.SERVER_USERNAME }}
-          server: ${{ secrets.SERVER_HOST }}
-          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY_LOACL }}
+          username: '${{ secrets.SERVER_USERNAME }}'
+          server: '${{ secrets.SERVER_HOST }}'
+          ssh_private_key: '${{ secrets.SSH_PRIVATE_KEY_LOACL }}'
           local_path: './deploy/*'
           remote_path: '/root/Download/hhblog'
           sftpArgs: '-o ConnectTimeout=5'
