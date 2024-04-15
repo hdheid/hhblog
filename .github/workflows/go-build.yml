@@ -19,7 +19,7 @@ jobs:
       - name: Build
         run: |
           cd gvb_server
-          go build -v -a -ldflags '-extldflags "-static"' -o app ./main.go
+          CGO_ENABLED=0 go build -v -a -ldflags '-extldflags "-static"' -o app ./main.go
           ls -l app  # 显示生成的可执行文件信息
 
 #      - name: Test
