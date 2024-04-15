@@ -56,7 +56,7 @@ jobs:
           server: '${{ secrets.SERVER_HOST }}'
           ssh_private_key: '${{ secrets.SSH_PRIVATE_KEY_LOACL }}'
           local_path: './deploy/*'
-          remote_path: '/root/Download/hhblog'
+          remote_path: '/root/Download/Deploy/server'
           sftpArgs: '-o ConnectTimeout=5'
 
       - name: Running the project
