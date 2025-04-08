@@ -1,0 +1,70 @@
+name: hhblog_build
+on:
+  push:
+    branches:
+      - '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4 #检出代码仓库中的代码
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.20'
+      - run: go version
+
+      - name: Build
+        run: |
+          cd gvb_server
+          CGO_ENABLED=0 go build -v -a -ldflags '-extldflags "-static"' -o app ./main.go
+          ls -l app  # 显示生成的可执行文件信息
+
+#      - name: Test
+#        run: go test -v ./...
+
+      - name: Archive build artifacts (optional)
+        if: always() # 无论构建成功与否都执行此步骤
+        uses: actions/upload-artifact@v3
+        with:
+          name: hhblog
+#          path: ./gvb_server # 实际的可执行文件路径
+          path: gvb_server/app  # 上传可执行文件作为构建产物
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: hhblog
+          path: deploy  # 下载构建产物到 deploy 目录
+
+      - run: |
+          pwd
+          cd deploy
+          pwd
+          ls
+
+      - name: deploy file to server
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+        with:
+          username: '${{ secrets.SERVER_USERNAME }}'
+          server: '${{ secrets.SERVER_HOST }}'
+          ssh_private_key: '${{ secrets.SSH_PRIVATE_KEY_LOACL }}'
+          local_path: './deploy/*'
+          remote_path: '/root/Download/Deploy/server'
+          sftpArgs: '-o ConnectTimeout=5'
+
+      - name: Running the project
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+#          script: |
+              chmod +x app
+            ./app  # 运行部署的应用程序
